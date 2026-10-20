@@ -9,7 +9,15 @@
  *  otherwise the number as a string ("7")
  */
 export function fizzBuzz(n) {
-  // TODO
+  if(n % 3 === 0 & n % 5 === 0){
+    return "FizzBuzz";
+  }
+  else if(n %5 ===0)
+    return "Buzz";
+  else if (n %3 ===0)
+    return "Fizz";
+  else 
+    return String(n);
 }
 
 /**
@@ -18,7 +26,19 @@ export function fizzBuzz(n) {
  * If score is below 0, above 100, or not a number → "Invalid"
  */
 export function grade(score) {
-  // TODO
+if (!Number.isFinite(score) || score < 0 || score > 100) { //checks that number is not NaN or infinity and is strictly a number
+  return "Invalid";
+}
+  if(score >= 90)
+    return "A";
+  if(score >= 80)
+    return "B";
+  if(score >= 70)
+    return "C";
+  if(score >= 60)
+    return "D";
+  else
+    return "F";
 }
 
 /**
@@ -29,7 +49,21 @@ export function grade(score) {
  * Must be case-insensitive: "SUNDAY" and "Sunday" both work.
  */
 export function dayType(day) {
-  // TODO
+  let action;
+  switch(day.toLowerCase()){
+  case "saturday":  
+  case "sunday": 
+    action = "Weekend"; break;
+  case "monday": 
+  case "tuesday": 
+  case "wednesday":
+  case "thursday": 
+  case "friday": 
+    action = "Weekday"; break;
+  default:       
+    action = "Unknown"; break;
+  }
+  return action;
 }
 
 /**
@@ -37,7 +71,8 @@ export function dayType(day) {
  * Children under 12 pay 5, seniors 65 and over pay 7, everyone else pays 10.
  */
 export function ticketPrice(age) {
-  // TODO
+  let owed = age <12 ? 5 : age >=65 ? 7: 10;
+  return owed;
 }
 
 /**
@@ -47,7 +82,10 @@ export function ticketPrice(age) {
  * hint: which operator — || or ?? ?
  */
 export function displayName(nickname) {
-  // TODO
+  if(nickname === null || nickname === undefined)
+    return "Anonymous";
+  else
+    return nickname;
 }
 
 /**
@@ -56,5 +94,9 @@ export function displayName(nickname) {
  * person = { age: number, hasLicense: boolean, withVip: boolean }
  */
 export function canRentCar(person) {
-  // TODO
+  if(person["age"] >= 21 && person["hasLicense"] || person["withVip"])
+    return true;
+  else 
+    return false;
+
 }
