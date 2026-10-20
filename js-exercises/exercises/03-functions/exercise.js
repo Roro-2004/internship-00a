@@ -6,7 +6,7 @@
  * Returns the sum of all arguments (0 if none).
  * sum(1, 2, 3) → 6
  */
-export const sum = undefined; // TODO: replace `undefined` with an arrow function
+export const sum =(... nums) => nums.reduce((total , nums) =>total + nums, 0 );
 
 /**
  * Apply a percentage discount. `percent` should DEFAULT to 10.
@@ -14,8 +14,10 @@ export const sum = undefined; // TODO: replace `undefined` with an arrow functio
  * applyDiscount(100)     → 90
  * applyDiscount(80, 25)  → 60
  */
-export function applyDiscount(price, percent) {
-  // TODO
+export function applyDiscount(price, percent = 10) {
+  let discount = price * ((100-percent)/100);
+  let roundedPrice = Math.round(discount * 100) / 100;
+  return roundedPrice;
 }
 
 /**
@@ -29,7 +31,23 @@ export function applyDiscount(price, percent) {
  * `start` defaults to 0. The count must NOT be accessible as a property.
  */
 export function makeCounter(start = 0) {
-  // TODO
+  let initialVal = start;
+  
+  return {
+    increment: function() {
+      return ++start;
+    },
+    decrement: function() {
+      return --start;
+    },
+    value: function() {
+      return start;
+    },
+    reset: function() {
+      start = initialVal; // Actually reset the counter
+      return start;
+    }
+  };
 }
 
 /**
@@ -40,7 +58,16 @@ export function makeCounter(start = 0) {
  * init() → returns 42 (no log)
  */
 export function once(fn) {
-  // TODO
+  let Runned = false;
+  let ans;
+  return function (... a){
+    if(!Runned){
+      ans = fn(... a);
+      Runned = true;
+    }
+    return ans;
+  }
+  
 }
 
 /**
@@ -48,7 +75,10 @@ export function once(fn) {
  * compose(f, g)(x) === f(g(x))
  */
 export function compose(f, g) {
-  // TODO
+  return function(x){
+    let ans = g(x);
+    return f(ans);
+  }
 }
 
 /**
@@ -59,5 +89,12 @@ export function compose(f, g) {
  * spy(1, 5) → 5;  spy.calls → 1
  */
 export function trackCalls(fn) {
-  // TODO
+  function temp (... args){
+
+    temp.calls ++ ;
+    return fn(... args);
+  }
+  temp.calls = 0;
+  return temp;
+  
 }
