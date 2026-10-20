@@ -12,7 +12,12 @@
  * describeType([1,2]) → "array"
  */
 export function describeType(value) {
-  // TODO
+  if(value === null)
+    return "null";
+  else if(Array.isArray(value))
+    return "array"
+  else
+    return typeof(value);
 }
 
 /**
@@ -20,7 +25,7 @@ export function describeType(value) {
  * greet("Ada", 36) → "Hi, I'm Ada and I'm 36 years old."
  */
 export function greet(name, age) {
-  // TODO
+  return `Hi, I'm ${name} and I'm ${age} years old.`;
 }
 
 /**
@@ -28,7 +33,7 @@ export function greet(name, age) {
  * Must return a real boolean (not just the value itself).
  */
 export function isTruthy(value) {
-  // TODO
+  return Boolean(value);
 }
 
 /**
@@ -36,7 +41,8 @@ export function isTruthy(value) {
  * swap(1, 2) → [2, 1]
  */
 export function swap(a, b) {
-  // TODO
+  let [x,y] = [b,a];
+  return [x,y];
 }
 
 /**
@@ -46,7 +52,8 @@ export function swap(a, b) {
  * celsiusToFahrenheit(37.5) → 99.5
  */
 export function celsiusToFahrenheit(celsius) {
-  // TODO
+  let F = (celsius *9/5) + 32;
+  return Math.round(F*10) /10;
 }
 
 /**
@@ -57,5 +64,9 @@ export function celsiusToFahrenheit(celsius) {
  * hint: Number(...) and Number.isNaN(...)
  */
 export function toNumber(text) {
-  // TODO
+    let val = Number(text);
+    if(isNaN(text))
+      return 0;
+    else
+      return val;
 }
