@@ -7,6 +7,8 @@
  */
 export function getFullName(person) {
   // TODO: hint — change the parameter to ({ firstName, lastName })
+  let { firstName, lastName } = person;
+  return `${firstName} ${lastName}`;
 }
 
 /**
@@ -15,7 +17,7 @@ export function getFullName(person) {
  * updateUser({ name: "Ada", age: 36 }, { age: 37 }) → { name: "Ada", age: 37 }
  */
 export function updateUser(user, changes) {
-  // TODO
+  return {... user, ...changes};
 }
 
 /**
@@ -24,7 +26,15 @@ export function updateUser(user, changes) {
  * hint: .toLowerCase(), .split(" "), and an object as a tally
  */
 export function countWords(sentence) {
-  // TODO
+  let obj = {}
+  let temp = sentence.toLowerCase().split(" ");
+  for(let i = 0; i < temp.length; i++){
+    let k = temp[i];
+    if(!obj[k])
+      obj[k] = 0
+    obj[k]+= 1;
+  }
+  return obj;
 }
 
 /**
@@ -33,7 +43,11 @@ export function countWords(sentence) {
  * hint: Object.entries + map + Object.fromEntries
  */
 export function invert(obj) {
-  // TODO
+  let temp = {}
+  for (const [k,v] of Object.entries(obj)){
+    temp[v] = k;
+  }
+  return temp;
 }
 
 /**
@@ -44,7 +58,7 @@ export function invert(obj) {
  * hint: ?. and ??
  */
 export function getCity(user) {
-  // TODO
+  return user?.address?.city ?? "Unknown";
 }
 
 /**
@@ -57,5 +71,24 @@ export function getCity(user) {
  *  - statement()       returns "<owner>: $<balance>"   e.g. "Ada: $50"
  */
 export function createBankAccount(owner) {
-  // TODO
+  let obj = {
+    owner ,
+    balance : 0,
+    deposit(amount){
+      this.balance += amount;
+      return this.balance;
+    },
+     withdraw(amount){
+      if(amount > this.balance)
+        throw new Error("Insufficient funds") ;
+      this.balance -= amount;
+      return this.balance;
+    },
+     statement(){
+      return `${this.owner}: $${this.balance}`
+    }
+
+
+  }
+  return obj;
 }
