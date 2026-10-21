@@ -13,22 +13,26 @@
 
 /** Return an array of just the product names. */
 export function getNames(products) {
-  // TODO
+  let ProdNames = products.map(x=> x.name);
+  return ProdNames;
 }
 
 /** Return only the products that are in stock. */
 export function getInStock(products) {
-  // TODO
+  let Available = products.filter(x => x.inStock === true)
+  return Available;
 }
 
 /** Return the total inventory value: sum of price × qty for every product. */
 export function totalValue(products) {
-  // TODO
+  let total = products.reduce((sum, x)=> sum += (x.qty * x.price), 0 );
+  return total;
 }
 
 /** Return the product with this exact name, or undefined. */
 export function findByName(products, name) {
-  // TODO
+  let Name = products.find(x => x.name === name);
+  return Name;
 }
 
 /**
@@ -36,12 +40,13 @@ export function findByName(products, name) {
  * The original array must NOT be changed.
  */
 export function sortByPrice(products) {
-  // TODO
+  return [...products].sort((a,b)=> a.price - b.price);
 }
 
 /** Return the names of in-stock products in `category`, in UPPERCASE. (chain them!) */
 export function inStockNamesIn(products, category) {
-  // TODO
+  return  products.filter(x => x.category === category && x.inStock === true).
+          map( x => x.name.toUpperCase());
 }
 
 /**
@@ -50,12 +55,20 @@ export function inStockNamesIn(products, category) {
  * hint: reduce with an object as the starting value
  */
 export function groupByCategory(products) {
-  // TODO
+  return products.reduce((groups, p) =>{
+    if(!groups[p.category])//law msh mawgood e3mlo array fady
+      groups[p.category] = []
+
+    groups[p.category].push(p.name);
+    return groups
+  }
+  ,{})
+
 }
 
 /** Remove duplicates. unique([1, 2, 2, 3, 1]) → [1, 2, 3] */
 export function unique(items) {
-  // TODO
+  return [...new Set(items)];
 }
 
 /**
@@ -64,5 +77,18 @@ export function unique(items) {
  * (You may use Array.from or a loop for this one 🙂)
  */
 export function chunk(items, size) {
-  // TODO
+  let arr = [];
+  let window = size - 1;
+  let temp = []
+  for(let i = 0; i<items.length; i++){
+    temp.push(items[i]);
+    if(i === window){
+      arr.push(temp);
+      temp = []
+      window += size;
+    }
+    if(temp.length > 0 && i === items.length - 1)
+      arr.push(temp);
+  }
+  return arr;
 }
