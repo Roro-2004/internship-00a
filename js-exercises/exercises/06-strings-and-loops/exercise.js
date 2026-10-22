@@ -3,12 +3,25 @@
 
 /** capitalize("hELLO") → "Hello" */
 export function capitalize(word) {
-  // TODO
+  let letters = [... word]
+  for(let i = 0; i < letters.length; i++){
+    if(i === 0)
+      letters[0] = letters[0].toUpperCase();
+    else
+      letters[i] = letters[i].toLowerCase();
+
+  }
+  return letters.join("")
 }
 
 /** titleCase("the lord of the rings") → "The Lord Of The Rings" */
 export function titleCase(sentence) {
-  // TODO
+  let words = sentence.split(" ")
+  let ans = []
+  for(let word of words)
+    ans.push(capitalize(word));
+
+return ans.join(" ");
 }
 
 /**
@@ -17,12 +30,24 @@ export function titleCase(sentence) {
  * isPalindrome("hello") → false
  */
 export function isPalindrome(text) {
-  // TODO
+  let c = text.toLowerCase().replace(/[^a-z0-9]/g, "");
+  let r = c.split("").reverse().join("");
+  if(c === r)
+    return true
+  else
+    return false
 }
 
 /** Count vowels (a, e, i, o, u — any case). Use a for...of loop. */
 export function countVowels(text) {
-  // TODO
+  let lowerCase = text.toLowerCase()
+  let vowels = ["a","e","i","o","u"]
+  let count = 0;
+  for(let letter of [...lowerCase]){
+    if(vowels.includes(letter))
+      count++;
+  }
+  return count;
 }
 
 /**
@@ -32,7 +57,11 @@ export function countVowels(text) {
  * truncate("Hi", 8)          → "Hi"
  */
 export function truncate(text, max) {
-  // TODO
+  if([... text].length > max){
+   return text.slice(0, max -3) + "..."
+  }
+  else
+    return text
 }
 
 /**
@@ -40,7 +69,11 @@ export function truncate(text, max) {
  * multiplicationTable(3, 4) → ["3 x 1 = 3", "3 x 2 = 6", "3 x 3 = 9", "3 x 4 = 12"]
  */
 export function multiplicationTable(n, upTo) {
-  // TODO
+  let ans =[]
+  for (let i = 1; i<=upTo;i++){
+    ans.push (`${n} x ${i} = ${n*i}`)
+  }
+  return ans;
 }
 
 /**
@@ -49,7 +82,15 @@ export function multiplicationTable(n, upTo) {
  * firstRepeatedWord("I think therefore I am") → "I"
  */
 export function firstRepeatedWord(sentence) {
-  // TODO
+  let words = sentence.split(" ");
+  let seen = new Set();
+  for(let word of words){
+    if(seen.has(word))
+      return word
+    seen.add(word);
+  }
+  return null
+
 }
 
 /**
@@ -57,5 +98,24 @@ export function firstRepeatedWord(sentence) {
  * (a letter appearing once has no number)
  */
 export function compress(text) {
-  // TODO
+ let obj = {};
+  let ans = [];
+  
+  for (let letter of text) {
+    if (!obj[letter]) {
+      obj[letter] = 1; 
+    } else {
+      obj[letter]++;
+    }
+  }
+  
+  for (let [k, v] of Object.entries(obj)) {
+    if (v === 1) {
+      ans.push(`${k}`);
+    } else {
+      ans.push(`${k}${v}`);
+    }
+  }
+  
+  return ans.join("");
 }
