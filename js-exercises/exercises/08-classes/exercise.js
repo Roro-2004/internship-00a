@@ -32,5 +32,77 @@
  * Store your data in PRIVATE fields (#items, #discount).
  */
 export class ShoppingCart {
-  // TODO
+  #items = [];
+  #discount = 0;
+
+  addItem(item, quantity = 1) {
+    if (!Number.isInteger(quantity) || quantity <= 0) {
+      throw new Error("Invalid quantity");
+    }
+    if (typeof item.price !== "number" || item.price < 0) {
+      throw new Error("Invalid price");
+    }
+    const existingItem = this.#items.find(i => i.name === item.name);
+    if (existingItem) {
+      existingItem.quantity += quantity;
+    } else {
+      this.#items.push({ name: item.name, price: item.price, quantity });
+    }
+
+    return this;
+  }
+
+  removeItem(name) {
+    this.#items = this.#items.filter(item => item.name !== name);
+  }
+
+  updateQuantity(name, quantity) {
+    if (quantity === 0) {
+      this.removeItem(name);
+      return;
+    }
+    
+    const existingItem = this.#items.find(i => i.name === name);
+    if (existingItem) {
+      existingItem.quantity = quantity;
+    }
+  }
+
+  get itemCount() {
+    return this.#items.reduce((total, item) => total + item.quantity, 0);
+  }
+
+  get subtotal() {
+    const sum = this.#items.reduce((total, item) => total + (item.price * item.quantity), 0);
+    return Math.round(sum *100)/100
+  }
+
+  get total() {
+    let discountedTotal = this.subtotal * (1 - this.#discount);
+    return Math.round(discountedTotal *100)/100
+  }
+
+  get items() {
+    return this.#items.map(item => ({ ...item }));
+  }
+
+  applyCoupon(code) {
+    let cleanCode ="";
+    if(typeof code === "string"){
+      cleanCode = code.toUpperCase()
+    }
+  
+    if (cleanCode === "SAVE10") {
+      this.#discount = 0.10;
+    } else if (cleanCode === "HALF") {
+      this.#discount = 0.50;
+    } else {
+      throw new Error("Invalid coupon");
+    }
+  }
+
+  clear() {
+    this.#items = [];
+    this.#discount = 0;
+  }
 }

@@ -44,7 +44,7 @@ export function makeCounter(start = 0) {
       return start;
     },
     reset: function() {
-      start = initialVal; // Actually reset the counter
+      start = initialVal; 
       return start;
     }
   };

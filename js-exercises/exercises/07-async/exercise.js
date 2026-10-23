@@ -7,15 +7,16 @@ import { getUser, getPosts, slowEndpoint } from "./api.js";
  * hint: new Promise(resolve => setTimeout(...))
  */
 export function wait(ms) {
-  // TODO
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 /**
  * Use async/await. Return just the user's name.
  * await getUserName(1) → "Ada Lovelace"
  */
-export async function getUserName(id) {
-  // TODO
+export async function getUserName(id) { 
+  let user = await getUser(id)
+  return user.name
 }
 
 /**
@@ -24,7 +25,13 @@ export async function getUserName(id) {
  * Bonus: can you fetch the user and posts IN PARALLEL?
  */
 export async function getUserWithPosts(id) {
-  // TODO
+  let userPosts = await getPosts(id);
+  let user
+  if(userPosts)
+      user = await getUser(id);
+    return {... user, posts: userPosts}
+
+
 }
 
 /**
@@ -33,7 +40,11 @@ export async function getUserWithPosts(id) {
  * Must be fast: 3 users should take ~50ms, not ~150ms.
  */
 export async function getManyNames(ids) {
-  // TODO
+  let promisedUsers = ids.map(id => getUserName(id))
+  
+  let Usernames = await Promise.all(promisedUsers);
+  return Usernames;
+
 }
 
 /**
@@ -41,7 +52,11 @@ export async function getManyNames(ids) {
  * hint: try / catch
  */
 export async function safeGetUser(id) {
-  // TODO
+  try {
+    return await getUser(id);
+  } catch (error) {
+    return null;
+  }
 }
 
 /**
@@ -50,7 +65,16 @@ export async function safeGetUser(id) {
  * hint: Promise.race between the request and a promise that rejects after timeoutMs
  */
 export async function withTimeout(ms, timeoutMs) {
-  // TODO
+  let timeoutPromise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      reject(new Error("Timeout"));
+    }, timeoutMs);
+  });
+
+  return Promise.race([
+    slowEndpoint(ms),
+    timeoutPromise
+  ]);
 }
 
 /**
@@ -59,5 +83,18 @@ export async function withTimeout(ms, timeoutMs) {
  * Fetch in parallel. hint: Promise.allSettled keeps the order of ids.
  */
 export async function fetchReport(ids) {
-  // TODO
+  let promises = ids.map(id => getUserName(id));
+  let results = await Promise.allSettled(promises);
+  
+  let found = [];
+  let missing = [];
+  results.forEach((result, index) => {
+    if (result.status === "fulfilled") {
+      found.push(result.value);
+    } else {
+      missing.push(ids[index]);
+    }
+  });
+  
+  return { found, missing };
 }
